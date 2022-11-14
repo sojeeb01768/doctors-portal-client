@@ -1,6 +1,7 @@
 import React from 'react';
 import MakeAppointment from '../../Shared/Footer/MakeAppointment/MakeAppointment';
 import Banner from '../Banner/Banner';
+import ContactUs from '../ContactUs/ContactUs';
 import InfoCards from '../InfoCards/InfoCards';
 import ServiceBanner from '../Services/ServiceBanner';
 import Services from '../Services/Services';
@@ -15,6 +16,7 @@ const Home = () => {
             <ServiceBanner></ServiceBanner>
             <MakeAppointment></MakeAppointment>
             <Testimonial></Testimonial>
+            <ContactUs></ContactUs>
         </div>
     );
 };
