@@ -25,7 +25,7 @@ const SignUp = () => {
                 }
                 updateUser(userInfo)
                     .then(() => { 
-                        navigate('/');
+                        saveUserToDb(data.name,data.email);
                     })
                     .catch(err => console.error(err));
 
@@ -34,6 +34,23 @@ const SignUp = () => {
                 console.error(err)
                 setSignUpError(err.message)
             });
+    }
+
+    const saveUserToDb = (name, email) =>{
+        const user = {name, email};
+        fetch('http://localhost:5000/users',{
+            method:'POST',
+            headers:{
+                'content-type':'application/json'
+            },
+            body:JSON.stringify(user)
+        })
+        .then(res => res.json())
+        .then(data=>{
+            console.log('save user',data);
+            navigate('/');
+        })
+
     }
 
     return (
