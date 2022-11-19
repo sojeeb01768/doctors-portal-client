@@ -3,14 +3,22 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
 import toast from 'react-hot-toast';
+import useToken from '../../hooks/useToken';
 
 
 const SignUp = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { createUser, updateUser } = useContext(AuthContext);
-    const [signUpError, setSignUpError] = useState('')
+    const [signUpError, setSignUpError] = useState('');
+
+    const [createdUserEmail, setCreatedUserEmail] = useState('');
+    const [token] = useToken(createdUserEmail);
     const navigate = useNavigate();
+
+    if(token){
+        navigate('/');
+    }
 
     const handlesignup = (data) => {
         setSignUpError('');
@@ -24,8 +32,8 @@ const SignUp = () => {
                     displayName: data.name
                 }
                 updateUser(userInfo)
-                    .then(() => { 
-                        saveUserToDb(data.name,data.email);
+                    .then(() => {
+                        saveUserToDb(data.name, data.email);
                     })
                     .catch(err => console.error(err));
 
@@ -36,22 +44,38 @@ const SignUp = () => {
             });
     }
 
-    const saveUserToDb = (name, email) =>{
-        const user = {name, email};
-        fetch('http://localhost:5000/users',{
-            method:'POST',
-            headers:{
-                'content-type':'application/json'
+    // save user email password to DB
+
+    const saveUserToDb = (name, email) => {
+        const user = { name, email };
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
             },
-            body:JSON.stringify(user)
+            body: JSON.stringify(user)
         })
-        .then(res => res.json())
-        .then(data=>{
-            console.log('save user',data);
-            navigate('/');
-        })
+            .then(res => res.json())
+            .then(data => {
+                // console.log('save user', data);
+                setCreatedUserEmail(email);
+
+            })
 
     }
+
+    // Get user token from server
+
+    // const getUserToken = email => {
+    //     fetch(`http://localhost:5000/jwt?email=${email}`)
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             if(data.accessToken){
+    //                 localStorage.setItem('accessToken', data.accessToken);
+    //                 // navigate('/');
+    //             }
+    //         })
+    // }
 
     return (
         <div className='h-[700px]  flex justify-center items-center '>
