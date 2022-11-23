@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthProvider';
 
 const MyAppointment = () => {
@@ -10,9 +11,9 @@ const MyAppointment = () => {
     const { data: bookings = [] } = useQuery({
         queryKey: ['bookings', user?.email],
         queryFn: async () => {
-            const res = await fetch(url,{
-                headers:{
-                    authorization:`bearer ${localStorage.getItem('accessToken')}`
+            const res = await fetch(url, {
+                headers: {
+                    authorization: `bearer ${localStorage.getItem('accessToken')}`
                 }
             });
             const data = await res.json();
@@ -33,17 +34,31 @@ const MyAppointment = () => {
                             <th>Treatment</th>
                             <th>Date</th>
                             <th>Time</th>
+                            <th>Price</th>
                         </tr>
                     </thead>
                     <tbody>
                         {/* <!-- row 1 --> */}
                         {
-                            bookings.map((booking, idx) => <tr key={booking._id}>
+                            bookings?.map((booking, idx) => <tr key={booking?._id}>
                                 <th>{idx + 1}</th>
                                 <td>{booking.patient} </td>
                                 <td>{booking.treatment}</td>
                                 <td>{booking.appointmentDate}</td>
                                 <td>{booking.slot}</td>
+                                <td>
+                                    {
+                                        booking.price && !booking.paid && <Link
+                                            to={`/dashboard/payment/${booking._id}`}>
+                                            <button
+                                                className='btn btn-secondary text-white'
+                                            >Pay Bill</button>
+                                        </Link>
+                                    }
+                                    {
+                                        booking.price && booking.paid && <span className='font-semibold'> Paid</span>
+                                    }
+                                </td>
                             </tr>)
                         }
                     </tbody>
