@@ -3,17 +3,22 @@ import React, { useEffect, useState } from 'react';
 
 const CheckoutForm = ({ booking }) => {
     const [cardError, setCardError] = useState('');
+    const [success, setSuccess] = useState('');
+    const [transactionId, setTransactionId] = useState('');
     const [clientSecret, setClientSecret] = useState("");
+    const [processing, setProcessing] = useState(false);
+
+
     console.log(clientSecret);
 
 
     const stripe = useStripe();
     const elements = useElements();
-    const { price,email,patient } = booking;
+    const { price, email, patient, _id } = booking;
 
     useEffect(() => {
         // Create PaymentIntent as soon as the page loads
-        fetch("http://localhost:5000/create-payment-intent", {
+        fetch("https://doctors-portal-server-ruby-mu.vercel.app/create-payment-intent", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -57,6 +62,8 @@ const CheckoutForm = ({ booking }) => {
             setCardError('')
             // console.log('[PaymentMethod]', paymentMethod);
         }
+        setSuccess('');
+        setProcessing(true);
 
         const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
             clientSecret,
@@ -71,11 +78,44 @@ const CheckoutForm = ({ booking }) => {
             },
         );
 
-        if(confirmError){
+        if (confirmError) {
             setCardError(confirmError.message);
             return;
         }
-        console.log('paymentIntent',paymentIntent);
+        if (paymentIntent.status === 'succeeded') {
+            console.log('card', card);
+            setSuccess("Congrats! Your payment successful");
+            setTransactionId(paymentIntent.id);
+
+
+            // store payment info in the database
+            const payment = {
+                price,
+                transactionId: paymentIntent.id,
+                email,
+                bookingId: _id,
+
+            }
+
+            fetch('https://doctors-portal-server-ruby-mu.vercel.app/payments', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                    authorization: `bearer ${localStorage.getItem('accessToken')}`
+                },
+                body: JSON.stringify(payment)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.insertedId) {
+                        setSuccess("Congrats! Your payment successful");
+                        setTransactionId(paymentIntent.id);
+                    }
+                })
+        }
+        setProcessing(false)
+        // console.log('paymentIntent',paymentIntent);
     }
 
     return (
@@ -100,11 +140,17 @@ const CheckoutForm = ({ booking }) => {
                 <button
                     className='btn btn-sm mt-5 btn-secondary text-white'
                     type="submit"
-                    disabled={!stripe || !clientSecret}>
+                    disabled={!stripe || !clientSecret || processing}>
                     Pay
                 </button>
             </form>
             <p className="text-red-600">{cardError}</p>
+            {
+                success && <div>
+                    <p className='text-green-500'>{success}</p>
+                    <p>Your transaction Id: <span className='font-bold '>{transactionId}</span></p>
+                </div>
+            }
         </>
     );
 };

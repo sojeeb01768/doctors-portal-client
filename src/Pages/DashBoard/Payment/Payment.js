@@ -1,7 +1,8 @@
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigation } from 'react-router-dom';
+import Loading from '../../Shared/Loading/Loading';
 import CheckoutForm from './CheckoutForm';
 
 
@@ -11,6 +12,13 @@ console.log(stripePromise);
 const Payment = () => {
     const booking = useLoaderData();
     const { appointmentDate, slot, price, treatment } = booking;
+
+    // navigation from react router dom to find loading status
+    const navigation = useNavigation();
+    if(navigation.state === 'loading'){
+        return <Loading></Loading>
+    }
+
     console.log(booking);
     return (
         <div className='m-5 '>

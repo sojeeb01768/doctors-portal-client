@@ -16,7 +16,7 @@ const SignUp = () => {
     const [token] = useToken(createdUserEmail);
     const navigate = useNavigate();
 
-    if(token){
+    if (token) {
         navigate('/');
     }
 
@@ -48,7 +48,7 @@ const SignUp = () => {
 
     const saveUserToDb = (name, email) => {
         const user = { name, email };
-        fetch('http://localhost:5000/users', {
+        fetch('https://doctors-portal-server-ruby-mu.vercel.app/users', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -67,7 +67,7 @@ const SignUp = () => {
     // Get user token from server
 
     // const getUserToken = email => {
-    //     fetch(`http://localhost:5000/jwt?email=${email}`)
+    //     fetch(`https://doctors-portal-server-ruby-mu.vercel.app/jwt?email=${email}`)
     //         .then(res => res.json())
     //         .then(data => {
     //             if(data.accessToken){

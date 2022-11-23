@@ -16,7 +16,7 @@ const AddDoctor = () => {
     const { data: specialties, isLoading, } = useQuery({
         queryKey: ['specialty'],
         queryFn: async () => {
-            const res = await fetch('http://localhost:5000/appointmentSpecialty')
+            const res = await fetch('https://doctors-portal-server-ruby-mu.vercel.app/appointmentSpecialty')
             const data = await res.json();
             return data;
         }
@@ -34,9 +34,9 @@ const AddDoctor = () => {
         })
             .then(res => res.json())
             .then(imgData => {
-                if(imgData.success){
+                if (imgData.success) {
                     console.log(imgData.data.url);
-                    const doctor ={
+                    const doctor = {
                         name: data.name,
                         email: data.email,
                         specialty: data.specialty,
@@ -44,20 +44,20 @@ const AddDoctor = () => {
                     }
 
                     // save doctors info to the database
-                     fetch('http://localhost:5000/doctors',{
-                        method:'POST',
-                        headers:{
-                            'content-type':'application/json',
+                    fetch('https://doctors-portal-server-ruby-mu.vercel.app/doctors', {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json',
                             authorization: `bearer ${localStorage.getItem('accessToken')}`
                         },
                         body: JSON.stringify(doctor)
-                     })
-                     .then(res=>res.json())
-                     .then(result=>{
-                        console.log(result);
-                        toast.success(`${data.name} is added successfully`);
-                        navigate('/dashboard/managedoctors')
-                     })
+                    })
+                        .then(res => res.json())
+                        .then(result => {
+                            console.log(result);
+                            toast.success(`${data.name} is added successfully`);
+                            navigate('/dashboard/managedoctors')
+                        })
                 }
             })
 
