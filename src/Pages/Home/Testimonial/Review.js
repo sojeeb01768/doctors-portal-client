@@ -5,7 +5,7 @@ const Review = ({ singleReview }) => {
     const { name, image, location, review } = singleReview;
 
     return (
-        <div className="card shadow-xl">
+        <div data-aos="fade-up-left" className="card shadow-xl">
             <div className="card-body">
                 <p className='mb-6'>{review}</p>
                 <div className="flex items-center justify-start">

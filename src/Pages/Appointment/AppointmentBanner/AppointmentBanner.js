@@ -10,7 +10,7 @@ const AppointmentBanner = ({ selectedDate, setSelectedDate }) => {
 
     return (
         <header className='my-6'>
-            <div className="hero ">
+            <div  className="hero ">
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <img src={chair} className="max-w-sm rounded-lg shadow-2xl" alt='Dentist chair' />
                     <div className='mr-6'>

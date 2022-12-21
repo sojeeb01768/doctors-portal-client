@@ -42,14 +42,14 @@ const MyAppointment = () => {
                         {
                             bookings?.map((booking, idx) => <tr key={booking?._id}>
                                 <th>{idx + 1}</th>
-                                <td>{booking.patient} </td>
-                                <td>{booking.treatment}</td>
-                                <td>{booking.appointmentDate}</td>
-                                <td>{booking.slot}</td>
+                                <td>{booking?.patient} </td>
+                                <td>{booking?.treatment}</td>
+                                <td>{booking?.appointmentDate}</td>
+                                <td>{booking?.slot}</td>
                                 {/* <td>{booking.price}</td> */}
                                 <td>
                                     {
-                                        booking.price && !booking.paid && <Link
+                                        booking?.price && !booking?.paid && <Link
                                             to={`/dashboard/payment/${booking._id}`}>
                                             <button
                                                 className='btn btn-secondary text-white'
@@ -57,7 +57,7 @@ const MyAppointment = () => {
                                         </Link>
                                     }
                                     {
-                                        booking.price && booking.paid && <span className='font-semibold text-secondary'> Paid</span>
+                                        booking?.price && booking?.paid && <span className='font-semibold text-secondary'> Paid</span>
                                     }
                                 </td>
                             </tr>)

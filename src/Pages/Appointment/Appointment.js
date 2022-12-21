@@ -5,7 +5,10 @@ import AvailableAppointments from './AvailableAppointments/AvailableAppointments
 const Appointment = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     return (
-        <div>
+        <div 
+        data-aos="zoom-out-down"
+        >
+            
             <AppointmentBanner 
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}

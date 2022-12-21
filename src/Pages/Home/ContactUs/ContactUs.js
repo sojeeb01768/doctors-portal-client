@@ -4,7 +4,10 @@ import appointment from '../../../assets/images/appointment.png'
 
 const ContactUs = () => {
     return (
-        <section>
+        <section
+        data-aos="fade-right"
+     data-aos-anchor-placement="top-center"
+        >
             <section className='mt-36 rounded-lg'
                 style={{
                     background: `url(${appointment})`
