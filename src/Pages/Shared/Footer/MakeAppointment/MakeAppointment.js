@@ -6,9 +6,7 @@ import PrimaryButton from '../../../../components/PrimaryButton/PrimaryButton';
 
 const MakeAppointment = () => {
     return (
-        <section data-aos="flip-left"
-            data-aos-easing="ease-out-cubic"
-            data-aos-duration="1000"
+        <section 
             className='mt-36 rounded-lg'
             style={{
                 background: `url(${appointment})`

@@ -4,7 +4,7 @@ import PrimaryButton from '../../../components/PrimaryButton/PrimaryButton';
 
 const ServiceBanner = () => {
     return (
-        <div data-aos="fade-up-right" className="hero min-h-screen my-32">
+        <div className="hero min-h-screen my-32">
             <div className="hero-content flex-col lg:flex-row">
                 <img src={treatment} className="w-2/3 lg:w-1/2 rounded-lg shadow-2xl" alt='' />
                 <div className='lg:mx-5'>

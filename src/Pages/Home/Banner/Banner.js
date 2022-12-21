@@ -5,7 +5,7 @@ import PrimaryButton from '../../../components/PrimaryButton/PrimaryButton';
 
 const Banner = () => {
     return (
-        <div data-aos="fade-right" className="hero" 
+        <div  className="hero" 
             style={{
                 background: `url(${bg})`
             }}
