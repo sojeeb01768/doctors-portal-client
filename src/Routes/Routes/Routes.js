@@ -8,6 +8,8 @@ import DashBoard from "../../Pages/DashBoard/DashBoard/DashBoard";
 import ManageDoctors from "../../Pages/DashBoard/ManageDoctors/ManageDoctors";
 import MyAppointment from "../../Pages/DashBoard/MyAppointment/MyAppointment";
 import Payment from "../../Pages/DashBoard/Payment/Payment";
+import AboutUs from "../../Pages/Home/AboutUs/AboutUs";
+import ContactUs from "../../Pages/Home/ContactUs/ContactUs";
 import Home from "../../Pages/Home/Home/Home";
 import Login from "../../Pages/Login/Login";
 import DisplayError from "../../Pages/Shared/DisplayError/DisplayError";
@@ -36,7 +38,15 @@ const router = createBrowserRouter([
             {
                 path: '/signup',
                 element: <SignUp></SignUp>
-            }
+            },
+            {
+                path: '/contactus',
+                element: <ContactUs></ContactUs>
+            },
+            {
+                path: '/about',
+                element: <AboutUs></AboutUs>
+            },
         ]
     },
     {
@@ -62,7 +72,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/payment/:id',
-                element: <AdminRoute><Payment></Payment></AdminRoute>,
+                element: <Payment></Payment>,
                 loader: ({ params }) => fetch(`https://doctors-portal-server-ruby-mu.vercel.app/bookings/${params.id}`)
             },
 

@@ -23,7 +23,7 @@ const AddDoctor = () => {
     })
 
     const handleAddDoctor = (data) => {
-        console.log(data.image[0].name);
+        // console.log(data.image[0].name);
         const image = data.image[0];
         const formData = new FormData();
         formData.append('image', image);
